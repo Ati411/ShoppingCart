@@ -1,4 +1,4 @@
-namespace ShoppingCart
+﻿namespace ShoppingCart
 {
     public partial class Form1 : Form
     {
@@ -7,6 +7,10 @@ namespace ShoppingCart
             InitializeComponent();
         }
 
+
+        //Function or Method
+        // 1. return data
+        // 2. no return data
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -14,65 +18,93 @@ namespace ShoppingCart
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string strCash = tbCash.Text;
-            //get amout
-            string strCoffePrice = tbCoffePrice.Text;
-            string strGreenTeaPrice = tbGreenTeaPrice.Text;
-
-            //get price
-            string strCoffeQuantity = tbCoffeQuantity.Text;
-            string strGreenTeaQuantity = tbGreenTeaQuantity.Text;
-
-            int iCoffePrice = 0;
-            int iCoffeQuantity = 0;
-            int iGreenTeaPrice = 0;
-            int iGreenTeaQuantity = 0;
-            int iCash = 0;
             try
             {
-                //convert str to int
-                iCash = int.Parse(strCash);
-                if (chbCoffe.Checked)
+                double dCash = double.Parse(tbCash.Text);
+
+                double dBeverageTotal = 0;
+                double dFoodTotal = 0;
+
+                if (chbCoffe.Checked) 
                 {
-                    iCoffePrice = int.Parse(strCoffePrice);
-                    iCoffeQuantity = int.Parse(strCoffeQuantity);
+                    dBeverageTotal += GetItemTotal(tbCoffePrice.Text, tbCoffeQuantity.Text);
                 }
                 if (chbGreenTea.Checked)
                 {
-                    iGreenTeaPrice = int.Parse(strGreenTeaPrice);
-                    iGreenTeaQuantity = int.Parse(strGreenTeaQuantity);
+                    dBeverageTotal += GetItemTotal(tbGreenTeaPrice.Text, tbGreenTeaQuantity.Text);
                 }
+
+                if (chbNoodle.Checked)
+                {
+                    dFoodTotal += GetItemTotal(tbNoodlePrice.Text, tbNoodleQuantity.Text);
+                }
+                if (chbPizza.Checked)
+                {
+                    dFoodTotal += GetItemTotal(tbPizzaPrice.Text, tbPizzaQuantity.Text);
+                }
+
+                double dGrandTotal = dBeverageTotal + dFoodTotal;
+
+                double dTotalDiscount = CalculateTotalDiscount(dBeverageTotal, dFoodTotal, dGrandTotal);
+
+                dGrandTotal -= dTotalDiscount;
+
+                if (dCash < dGrandTotal)
+                {
+                    MessageBox.Show("เงินสดไม่เพียงพอ", "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                double dChange = dCash - dGrandTotal;
+
+                tbTotal.Text = dGrandTotal.ToString("F2");
+                tbChange.Text = dChange.ToString("F2");
+
+                CalculateChangeDenominations(dChange);
             }
-            catch (Exception ex)
+            catch (FormatException)
             {
-                iCoffePrice = 0;
-                iCoffeQuantity = 0;
-                iGreenTeaPrice = 0;
-                iGreenTeaQuantity = 0;
-                iCash = 0;
+                MessageBox.Show("กรุณากรอกข้อมูลตัวเลขให้ถูกต้อง", "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //Calculate total
-            int iCoffeTotal = iCoffePrice * iCoffeQuantity;
-            int iGreenTeaTotal = iGreenTeaPrice * iGreenTeaQuantity;
-            int iTotal = iCoffeTotal + iGreenTeaTotal;
-            int iChange = iCash - iTotal;
+        }
 
-            //Display
-            tbTotal.Text = iTotal.ToString();
-            tbChange.Text = iChange.ToString();
-           
+        private double GetItemTotal(string priceText, string quantityText)
+        {
+            double price = 0, quantity = 0;
+            try
+            {
+                price = double.Parse(priceText);
+                quantity = double.Parse(quantityText);
+            }
+            catch (Exception)
+            {
+                price = 0;
+                quantity = 0;
+            }
+            return price * quantity;
+        }
+        private double CalculateTotalDiscount(double dBeverageTotal, double dFoodTotal, double dGrandTotal)
+        {
+            double dDiscountBev = chbDiscountBev.Checked ? double.Parse(tbDiscountBev.Text) : 0;
+            double dDiscountFood = chbDiscountFood.Checked ? double.Parse(tbDiscountFood.Text) : 0;
+            double dDiscountAll = chbDiscountAll.Checked ? double.Parse(tbDiscountAll.Text) : 0;
 
+            double dTotalDiscount = (dBeverageTotal * dDiscountBev / 100) + (dFoodTotal * dDiscountFood / 100) + (dGrandTotal * dDiscountAll / 100);
 
-            int[] denominations = { 1000, 500, 100, 50, 20, 10, 5, 1 };
+            return dTotalDiscount;
+        }
+
+        private void CalculateChangeDenominations(double change)
+        {
+            double[] denominations = { 1000, 500, 100, 50, 20, 10, 5, 1, 0.50, 0.25 };
             int[] changeCount = new int[denominations.Length];
-            int remainingChange = iChange;
+            double remainChange = change;
 
             for (int i = 0; i < denominations.Length; i++)
             {
-                changeCount[i] = remainingChange / denominations[i];
-                remainingChange %= denominations[i];
+                changeCount[i] = (int)(remainChange / denominations[i]);
+                remainChange %= denominations[i];
             }
-
 
             tb1000.Text = changeCount[0].ToString();
             tb500.Text = changeCount[1].ToString();
@@ -82,9 +114,26 @@ namespace ShoppingCart
             tb10.Text = changeCount[5].ToString();
             tb5.Text = changeCount[6].ToString();
             tb1.Text = changeCount[7].ToString();
+            tb050.Text = changeCount[8].ToString();
+            tb025.Text = changeCount[9].ToString();
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
