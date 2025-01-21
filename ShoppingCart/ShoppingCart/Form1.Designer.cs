@@ -93,6 +93,7 @@
             chbCoffe.TabIndex = 0;
             chbCoffe.Text = "Coffe";
             chbCoffe.UseVisualStyleBackColor = true;
+            chbCoffe.CheckedChanged += chbCoffe_ChekedChanged;
             // 
             // chbGreenTea
             // 
@@ -108,6 +109,7 @@
             // 
             tbCoffePrice.Location = new Point(101, 20);
             tbCoffePrice.Name = "tbCoffePrice";
+            tbCoffePrice.ReadOnly = true;
             tbCoffePrice.Size = new Size(100, 23);
             tbCoffePrice.TabIndex = 2;
             // 
@@ -115,6 +117,7 @@
             // 
             tbGreenTeaPrice.Location = new Point(101, 49);
             tbGreenTeaPrice.Name = "tbGreenTeaPrice";
+            tbGreenTeaPrice.ReadOnly = true;
             tbGreenTeaPrice.Size = new Size(100, 23);
             tbGreenTeaPrice.TabIndex = 3;
             // 
@@ -373,6 +376,7 @@
             // 
             tbNoodlePrice.Location = new Point(101, 20);
             tbNoodlePrice.Name = "tbNoodlePrice";
+            tbNoodlePrice.ReadOnly = true;
             tbNoodlePrice.Size = new Size(100, 23);
             tbNoodlePrice.TabIndex = 2;
             // 
@@ -380,6 +384,7 @@
             // 
             tbPizzaPrice.Location = new Point(101, 49);
             tbPizzaPrice.Name = "tbPizzaPrice";
+            tbPizzaPrice.ReadOnly = true;
             tbPizzaPrice.Size = new Size(100, 23);
             tbPizzaPrice.TabIndex = 3;
             // 
@@ -480,7 +485,7 @@
             chbDiscountFood.TabIndex = 1;
             chbDiscountFood.Text = "Food";
             chbDiscountFood.UseVisualStyleBackColor = true;
-            chbDiscountFood.CheckedChanged += checkBox2_CheckedChanged;
+            chbDiscountFood.CheckedChanged += chbCoffe_ChekedChanged;
             // 
             // tbDiscountAll
             // 

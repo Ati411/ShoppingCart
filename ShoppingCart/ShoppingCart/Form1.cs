@@ -2,9 +2,43 @@
 {
     public partial class Form1 : Form
     {
+        Item itemCoffe = new Item();
+        Item itemGreenTea = new Item();
+        Item itemNoodle = new Item();
+        Item itemPizza = new Item();
         public Form1()
         {
             InitializeComponent();
+
+            //add data to object
+            itemCoffe.name = "Coffe";
+            itemCoffe.price = 175;
+            itemCoffe.quantity = 0;
+
+            itemGreenTea.name = "GreenTea";
+            itemGreenTea.price = 150;
+            itemGreenTea.quantity = 0;
+
+            itemNoodle.name = "Noodle";
+            itemNoodle.price = 50;
+            itemNoodle.quantity = 0;
+
+            itemPizza.name = "Pizza";
+            itemPizza.price = 199;
+            itemPizza.quantity = 0;
+
+            //display data
+            tbCoffePrice.Text = itemCoffe.price.ToString();
+            tbCoffeQuantity.Text = itemCoffe.quantity.ToString();
+
+            tbGreenTeaPrice.Text = itemGreenTea.price.ToString();
+            tbGreenTeaQuantity.Text = itemGreenTea.quantity.ToString();
+            
+            tbNoodlePrice.Text = itemNoodle.price.ToString();
+            tbNoodleQuantity.Text = itemNoodle.quantity.ToString();
+            
+            tbPizzaPrice.Text = itemPizza.price.ToString();
+            tbPizzaQuantity.Text = itemPizza.quantity.ToString();
         }
 
 
@@ -57,6 +91,7 @@
 
                 double dChange = dCash - dGrandTotal;
 
+                //Display
                 tbTotal.Text = dGrandTotal.ToString("F2");
                 tbChange.Text = dChange.ToString("F2");
 
@@ -70,7 +105,8 @@
 
         private double GetItemTotal(string priceText, string quantityText)
         {
-            double price = 0, quantity = 0;
+            double price = 0; 
+            double quantity = 0;
             try
             {
                 price = double.Parse(priceText);
@@ -123,9 +159,9 @@
 
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void chbCoffe_ChekedChanged(object sender, EventArgs e)
         {
-
+            itemCoffe.isCheck = chbCoffe.Checked;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
