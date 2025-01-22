@@ -2,10 +2,11 @@
 {
     public partial class Form1 : Form
     {
-        Item itemCoffe = new Item();
-        Item itemGreenTea = new Item();
-        Item itemNoodle = new Item();
-        Item itemPizza = new Item();
+        MenuItem itemCoffe = new MenuItem();
+        MenuItem itemGreenTea = new MenuItem();
+        MenuItem itemNoodle = new MenuItem();
+        MenuItem itemPizza = new MenuItem();
+
         public Form1()
         {
             InitializeComponent();
@@ -61,20 +62,24 @@
 
                 if (chbCoffe.Checked) 
                 {
-                    dBeverageTotal += GetItemTotal(tbCoffePrice.Text, tbCoffeQuantity.Text);
+                    itemCoffe.quantity = int.Parse(tbCoffeQuantity.Text);
+                    dBeverageTotal += itemCoffe.GetTotalPrice();
                 }
                 if (chbGreenTea.Checked)
                 {
-                    dBeverageTotal += GetItemTotal(tbGreenTeaPrice.Text, tbGreenTeaQuantity.Text);
+                    itemGreenTea.quantity = int.Parse(tbGreenTeaQuantity.Text);
+                    dBeverageTotal += itemGreenTea.GetTotalPrice();
                 }
 
                 if (chbNoodle.Checked)
                 {
-                    dFoodTotal += GetItemTotal(tbNoodlePrice.Text, tbNoodleQuantity.Text);
+                    itemNoodle.quantity = int.Parse(tbNoodleQuantity.Text);
+                    dFoodTotal += itemNoodle.GetTotalPrice();
                 }
                 if (chbPizza.Checked)
                 {
-                    dFoodTotal += GetItemTotal(tbPizzaPrice.Text, tbPizzaQuantity.Text);
+                    itemPizza.quantity = int.Parse(tbPizzaQuantity.Text);
+                    dFoodTotal += itemPizza.GetTotalPrice();
                 }
 
                 double dGrandTotal = dBeverageTotal + dFoodTotal;
@@ -103,22 +108,6 @@
             }
         }
 
-        private double GetItemTotal(string priceText, string quantityText)
-        {
-            double price = 0; 
-            double quantity = 0;
-            try
-            {
-                price = double.Parse(priceText);
-                quantity = double.Parse(quantityText);
-            }
-            catch (Exception)
-            {
-                price = 0;
-                quantity = 0;
-            }
-            return price * quantity;
-        }
         private double CalculateTotalDiscount(double dBeverageTotal, double dFoodTotal, double dGrandTotal)
         {
             double dDiscountBev = chbDiscountBev.Checked ? double.Parse(tbDiscountBev.Text) : 0;
@@ -161,7 +150,7 @@
 
         private void chbCoffe_ChekedChanged(object sender, EventArgs e)
         {
-            itemCoffe.isCheck = chbCoffe.Checked;
+
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)

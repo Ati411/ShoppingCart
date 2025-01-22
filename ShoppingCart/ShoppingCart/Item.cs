@@ -6,12 +6,23 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart
 {
-    internal class Item
+    public class MenuItem
     {
-        // Class Information
-        public string name;
-        public int price;
-        public int quantity;
-        public bool isCheck;
+        public string name { get; set; }
+        public double price { get; set; }
+        public int quantity { get; set; }
+        public bool isChecked { get; set; }
+
+
+        public double GetTotalPrice()
+        {
+            return price * quantity;
+        }
+
+
+        public double GetDiscount(double discountPercentage)
+        {
+            return GetTotalPrice() * (discountPercentage / 100);
+        }
     }
 }
